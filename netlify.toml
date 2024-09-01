@@ -1,0 +1,16 @@
+[build]
+  command = "python scrape.py"
+  publish = "public"
+
+[[plugins]]
+  package = "@netlify/plugin-schedule"
+  
+[build]
+  command = "python scrape.py"
+  publish = "public"
+
+[[plugins]]
+  package = "@netlify/plugin-schedule"
+
+[functions]
+  node_bundler = "esbuild"
