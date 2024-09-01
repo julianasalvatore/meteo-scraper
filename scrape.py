@@ -5,44 +5,26 @@ import json
 def scrape_wsclima():
     url = 'https://www.wsclima.com.br/estacao/312'
     response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Exemplo de como extrair dados (substitua pelos IDs corretos)
-    temp = soup.find(id='temp').text.strip()
-    umidade = soup.find(id='umidade').text.strip()
+    # Supondo que as informações estejam em tags específicas
+    temperatura = soup.find('span', class_='temperature').text
+    umidade = soup.find('span', class_='humidity').text
+    chuva = soup.find('span', class_='rain').text
+    vento = soup.find('span', class_='wind').text
 
-    return {
-        'temperatura': temp,
+    data = {
+        'temperatura': temperatura,
         'umidade': umidade,
-    }
-
-def scrape_wunderground():
-    url = 'https://www.wunderground.com/dashboard/pws/INOVAF28'
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    temp = soup.find(id='temp').text.strip()
-    umidade = soup.find(id='umidade').text.strip()
-
-    return {
-        'temperatura': temp,
-        'umidade': umidade,
-    }
-
-def main():
-    dados_wsclima = scrape_wsclima()
-    dados_wunderground = scrape_wunderground()
-
-    dados = {
-        'wsclima': dados_wsclima,
-        'wunderground': dados_wunderground
+        'chuva': chuva,
+        'vento': vento
     }
 
     with open('public/dados.json', 'w') as f:
-        json.dump(dados, f)
+        json.dump(data, f)
 
-if __name__ == '__main__':
+def main():
+    scrape_wsclima()
+
+if __name__ == "__main__":
     main()
-[build]
-  command = "python scrape.py"
-  publish = "public"
