@@ -14,3 +14,13 @@
 
 [functions]
   node_bundler = "esbuild"
+
+  [build]
+  command = "python scrape.py"
+  publish = "public"
+
+[[redirects]]
+  from = "/dados.json"
+  to = "/dados.json"
+  status = 200
+
